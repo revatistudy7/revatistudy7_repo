@@ -1,0 +1,21 @@
+ERROR=> SEVERE: MessageBodyWriter not found for media type=application/json, type=class java.util.ArrayList, generic Type=java.util.List<com.tutorials.User>.
+
+1. take out servlet-api jar from classpath - so it wont override the one from server
+2.	add both type to produces 
+	=>	@Produces({MediaType.APPLICATION_JSON , MediaType.APPLICATION_XML})
+3.	
+===============================
+List<Region> regions = regionDao.getAll();
+    JSONArray list = new JSONArray();
+    for(Region region : regions )
+    {
+       JSONObject jObject= new JSONObject();
+       //put all the data in json object
+       jObject.put(region.getSomething());
+       // and put this Jsonobject in JsonArray
+       list.add(jObject);
+    }
+
+Or 
+
+Response.ok().entity(new GenericEntity<List<Region>>(regions) {}).build();
